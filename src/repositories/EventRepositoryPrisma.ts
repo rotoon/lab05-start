@@ -40,19 +40,16 @@ export function getAllEventsWithOrganizer() {
     select: {
       id: true,
       title: true,
+      description: true,
+      location: true,
+      date: true,
+      time: true,
+      petsAllowed: true,
       category: true,
       organizerId: false,
       organizer: {
         select: {
           name: true,
-        },
-      },
-      participants: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          events: true,
         },
       },
     },
