@@ -29,6 +29,7 @@ app.use(express.json())
 app.use('/events', eventRoute)
 
 app.post('/upload', upload.single('file'), async (req: any, res: any) => {
+  console.log(req)
   try {
     const file = req.file
     if (!file) {
