@@ -4,6 +4,7 @@ import path from 'path'
 import cors, { CorsOptions } from 'cors'
 import multer from 'multer'
 import { uploadFile } from './services/UploadFileService'
+import authRoute from './routes/AuthRoute'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -29,6 +30,7 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use('/events', eventRoute)
+app.use('/api/v1/auth', authRoute)
 
 app.post('/upload', upload.single('file'), async (req: any, res: any) => {
   console.log(req)
