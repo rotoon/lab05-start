@@ -2,6 +2,7 @@ import * as authService from '../services/AuthService'
 import express from 'express'
 import type { roleModel as role } from '../generated/prisma/models/role'
 import * as authMiddleware from '../middleware/AuthMiddleware'
+import type { RegisterRequest } from '../models/RegisterRequest'
 
 const router = express.Router()
 
@@ -65,4 +66,23 @@ router.post('/authenticate', async (req, res) => {
     // },
   })
 })
+
+router.post('/register', async (req, res) => {
+  const registerRequest: RegisterRequest = req.body
+  try {
+    const responseUser = await authService.registerUser(registerRequest)
+    res.status(201).json({
+      status: 'success',
+      user: {
+        id: responseUser.id,
+        organizerName: responseUser.organizer?.name || 'unknown',
+        username: responseUser.username,
+        roles: responseUser.roles.map((role: role) => role.name),
+      },
+    })
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: 'Internal server error' })
+  }
+})
+
 export default router
